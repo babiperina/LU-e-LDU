@@ -1,8 +1,9 @@
 import numpy as np
 
+
 class Matrix:
 
-    def __init__(self, rows, cols, data = []):
+    def __init__(self, rows, cols, data=[]):
         if type(rows) != int or type(cols) != int:
             print('O valor passado não é um número!')
             return
@@ -11,12 +12,11 @@ class Matrix:
             return
         self.rows = rows
         self.cols = cols
-        
+
         if data:
             self.data = data
         else:
             self.data = [0] * (self.rows * self.cols)
-        
 
     def __getitem__(self, key):
         try:
@@ -25,44 +25,40 @@ class Matrix:
                 raise Exception('Numero de linhas não é compatível')
             if self.cols < 0:
                 raise Exception('Numero de colunas não é compatível')
-            #print(key)
-            return self.data[(j-1) + (i-1) * self.cols]
+            # print(key)
+            return self.data[(j - 1) + (i - 1) * self.cols]
         except IndexError:
             print('Não existe a linha/coluna nessa matriz')
-        
 
-    #Método para definir um dos valores da matriz
+    # Método para definir um dos valores da matriz
     def __setitem__(self, key, value):
         try:
             i, j = key
-            self.data[(j-1) + (i-1) * self.cols] = value
+            self.data[(j - 1) + (i - 1) * self.cols] = value
         except IndexError:
             print("Não existe a linha/coluna nessa matriz")
 
-
     def __repr__(self):
         print('')
-        for i in range(1, self.rows+1):
-            for j in range(1,self.cols+1):
-                print("{0:.4f}".format(self[i,j]),end="   ")
+        for i in range(1, self.rows + 1):
+            for j in range(1, self.cols + 1):
+                print("{0:.4f}".format(self[i, j]), end="   ")
             print('')
 
         return ''
 
-
-    def __radd__(self,other):
+    def __radd__(self, other):
 
         return self.__add__(other)
-        
 
-    #usar 'type()' para adicionar opção elemento a elemento
+    # usar 'type()' para adicionar opção elemento a elemento
 
-    def __add__(self,other):
+    def __add__(self, other):
         if type(other) == Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    res[i,j] = self[i,j] + other[i,j]
+                    res[i, j] = self[i, j] + other[i, j]
 
             return res
 
@@ -70,20 +66,20 @@ class Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    res[i,j] = self[i,j] + other
+                    res[i, j] = self[i, j] + other
             return res
 
         else:
             print('Elemento não compatível para operação!')
 
-            return 
-                
-    def __sub__(self,other):
+            return
+
+    def __sub__(self, other):
         if type(other) == Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    res[i,j] = self[i,j] - other[i,j]
+                    res[i, j] = self[i, j] - other[i, j]
 
             return res
 
@@ -91,25 +87,25 @@ class Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    res[i,j] = self[i,j] - other
+                    res[i, j] = self[i, j] - other
             return res
 
         else:
             print('Elemento não compatível para operação!')
 
-            return 
+            return
 
         return res
 
     def __rsub__(self, other):
         return self.__sub__(other)
 
-    def __mul__(self,other):
+    def __mul__(self, other):
         if type(other) == Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    res[i,j] = self[i,j] * other[i,j]
+                    res[i, j] = self[i, j] * other[i, j]
 
             return res
 
@@ -117,27 +113,27 @@ class Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    res[i,j] = self[i,j] * other
+                    res[i, j] = self[i, j] * other
             return res
 
         else:
             print('Elemento não compatível para operação!')
 
-            return 
+            return
 
     def __rmul__(self, other):
-        return self.__mul__(other)        
+        return self.__mul__(other)
 
-    def __truediv__(self,other):
+    def __truediv__(self, other):
         if type(other) == Matrix:
             res = Matrix(self.rows, self.cols)
             for i in range(1, self.rows + 1):
                 for j in range(1, self.cols + 1):
-                    if other[i,j] == 0:
+                    if other[i, j] == 0:
                         print('Valor não pode divir por 0!')
                         return
                     else:
-                        res[i,j] = self[i,j] / other[i,j]
+                        res[i, j] = self[i, j] / other[i, j]
             return res
 
         elif type(other) == int or type(other) == float:
@@ -147,20 +143,19 @@ class Matrix:
                     if other == 0:
                         print('Valor não pode divir por 0!')
                         return
-                    else: 
-                        res[i,j] = self[i,j] / other
+                    else:
+                        res[i, j] = self[i, j] / other
             return res
 
         else:
             print('Elemento não compatível para operação!')
 
-            return 
+            return
 
     def __rtruediv__(self, other):
         return self.__truediv__(other)
 
-
-    def dot(self,other):
+    def dot(self, other):
         try:
             if self.cols != other.rows:
                 raise Exception('Número de linhas e colunas é incompatível para multiplicação!')
@@ -168,29 +163,31 @@ class Matrix:
             raise
 
         else:
-            res = Matrix(self.rows,other.cols)
+            res = Matrix(self.rows, other.cols)
 
-            for k in range(1,self.cols + 1):
+            for k in range(1, self.cols + 1):
                 for i in range(1, self.rows + 1):
-                    for j in range(1,other.cols + 1):
-                        res[i,j] += self[i,k] * other[k,j]
+                    for j in range(1, other.cols + 1):
+                        res[i, j] += self[i, k] * other[k, j]
             return res
 
     def transpose(self):
 
-        res = Matrix(self.cols,self.rows)
+        res = Matrix(self.cols, self.rows)
 
-        for i in range(1, self.rows+1):
-            for j in range(1, self.cols+1):
-                res[j,i] = self[i,j]
+        for i in range(1, self.rows + 1):
+            for j in range(1, self.cols + 1):
+                res[j, i] = self[i, j]
 
         return res
 
+    def LU(self, b):
+        xyz = []
+        y = []
 
-    def LU(self):
-        L = Matrix(self.rows,self.cols,self.data)
+        L = Matrix(self.rows, self.cols, self.data)
         L = self.get_diagonal_principal(L.rows, L.cols)
-        U = Matrix(self.rows,self.cols,self.data)
+        U = Matrix(self.rows, self.cols, self.data)
 
         print("L")
         self.print(L)
@@ -204,10 +201,46 @@ class Matrix:
         print("\nL triangulo inferior com pivots")
         self.print(L)
 
+        y = self.calcularLy(L, b)
+        self.calcularUx(U, y)
+
+    def calcularLy(self, L, b):
+        y = []
+
+        y.append(b[0] / L[1, 1])
+        x = (b[1]-(L[2,1]*y[0]))/L[2,2]
+        y.append(x)
+        a = (L[3,1]*y[0]) + (L[3,2]*y[1])
+        x = b[2] - a
+        y.append(x / L[3,3])
+
+        print("\nLy:")
+        print(y)
+
+        return y
+
+    def calcularUx(self, U, y):
+        xyz = []
+
+        xyz.append(y[2] / U[3, 3])
+        x = (y[1] - (U[2, 3] * xyz[0])) / U[2, 2]
+        xyz.append(x)
+        a = (U[1, 2] * xyz[1]) + (U[1, 3] * xyz[0])
+        x = y[0] - a
+        xyz.append(x / U[1, 1])
+
+        xyz = [xyz[2], xyz[1], xyz[0]]
+
+        print("\nXYZ:")
+        print(xyz)
+
+        return xyz
+
+
     def definirU(self):
         pivots = []
-        for i in range(1, self.rows+1):
-            for j in range(1, self.cols+1):
+        for i in range(1, self.rows + 1):
+            for j in range(1, self.cols + 1):
                 if i > j:
                     print("\natualizando: " + str(i) + "," + str(j))
                     pivots.append(self.atualizarLinha(i, j))
@@ -218,33 +251,34 @@ class Matrix:
         for i in range(1, self.rows + 1):
             for j in range(1, self.cols + 1):
                 if i > j:
-                    self[i,j] = pivots[0]
+                    self[i, j] = pivots[0]
                     pivots.pop(0)
 
     def atualizarLinha(self, atuali, atualj):
 
         pivot = self[atuali, atualj] / self[atualj, atualj]
 
-        for j in range(1, self.cols+1):
-            print(str(self[atuali,j]) + " = " + str(self[atuali,j]) + " - (" +str(pivot)+"*"+ str(self[atuali,j]) + ") =" + str(self[atuali,j]))
-            self[atuali,j] -= (pivot*self[atualj,j])
-            print("a["+str(atuali)+","+str(j)+"] = a["+str(atuali)+","+str(j)+"] - " +str(pivot)+"*"+" a["+str(atualj)+","+str(atuali)+"] =" + str(self[atuali,j]))
+        for j in range(1, self.cols + 1):
+            print(str(self[atuali, j]) + " = " + str(self[atuali, j]) + " - (" + str(pivot) + "*" + str(
+                self[atuali, j]) + ") =" + str(self[atuali, j]))
+            self[atuali, j] -= (pivot * self[atualj, j])
+            print("a[" + str(atuali) + "," + str(j) + "] = a[" + str(atuali) + "," + str(j) + "] - " + str(
+                pivot) + "*" + " a[" + str(atualj) + "," + str(atuali) + "] =" + str(self[atuali, j]))
             print()
 
         return pivot
 
-    def get_diagonal_principal(self, rows,cols):
+    def get_diagonal_principal(self, rows, cols):
         res = Matrix(rows, cols)
 
-        for i in range(1, res.rows+1):
-            for j in range(1, res.cols+1):
+        for i in range(1, res.rows + 1):
+            for j in range(1, res.cols + 1):
                 if i == j:
-                    res[i,j] = 1
+                    res[i, j] = 1
                 else:
                     res[i, j] = 0
 
         return res
-
 
     def print(self, matrix):
         for i in range(1, matrix.rows + 1):
