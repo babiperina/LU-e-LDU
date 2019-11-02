@@ -194,31 +194,44 @@ class Matrix:
 
         print("L")
         self.print(L)
-        print()
-        print("U")
+        print("\nU")
         self.print(U)
-        U.definirU()
-        print("U triangulo inferior zerado")
+        pivots = U.definirU()
+        print("\nU triangulo inferior zerado")
         self.print(U)
+        print("\npivots = " + str(pivots))
+        L.definirL(pivots)
+        print("\nL triangulo inferior com pivots")
+        self.print(L)
 
     def definirU(self):
+        pivots = []
         for i in range(1, self.rows+1):
             for j in range(1, self.cols+1):
                 if i > j:
-                    self.atualizarLinha(i, j)
-                    print("atualizando: " + str(i) + "," + str(j))
+                    print("\natualizando: " + str(i) + "," + str(j))
+                    pivots.append(self.atualizarLinha(i, j))
 
+        return pivots
 
+    def definirL(self, pivots):
+        for i in range(1, self.rows + 1):
+            for j in range(1, self.cols + 1):
+                if i > j:
+                    self[i,j] = pivots[0]
+                    pivots.pop(0)
 
     def atualizarLinha(self, atuali, atualj):
 
-        for i in range(1, self.rows+1):
-            for j in range(1, self.cols+1):
-                pivot = self[atuali, atualj] / self[j, j]
-                if i == atuali:
-                    self[i,j] -= (pivot*self[j,j])
-                    print("a["+str(i)+","+str(j)+"] = a["+str(i)+","+str(j)+"] - " +str(pivot)+"*"+" a["+str(atualj)+","+str(atualj)+"]")
+        pivot = self[atuali, atualj] / self[atualj, atualj]
 
+        for j in range(1, self.cols+1):
+            print(str(self[atuali,j]) + " = " + str(self[atuali,j]) + " - (" +str(pivot)+"*"+ str(self[atuali,j]) + ") =" + str(self[atuali,j]))
+            self[atuali,j] -= (pivot*self[atualj,j])
+            print("a["+str(atuali)+","+str(j)+"] = a["+str(atuali)+","+str(j)+"] - " +str(pivot)+"*"+" a["+str(atualj)+","+str(atuali)+"] =" + str(self[atuali,j]))
+            print()
+
+        return pivot
 
     def get_diagonal_principal(self, rows,cols):
         res = Matrix(rows, cols)
